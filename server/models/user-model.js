@@ -20,3 +20,10 @@ export const findUserByEmail = async (email) => {
   `;
   return user;
 };
+
+export const findUserById = async (id) => {
+  const [user] = await sql`
+    SELECT id, email, created_at FROM users WHERE id = ${id}
+  `;
+  return user;
+};
