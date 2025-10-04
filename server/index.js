@@ -1,20 +1,14 @@
 import express from "express"
 import client from "./utils/redisClient.js";
+import authRouter from "./routes/auth-routes.js";
+import createUsersTable from "./data/createUserTable.js";
 
 const app = express();
-app.use(cors());
+
 app.use(express.json());
 
+createUsersTable();
 
-app.get("/", async (req, res) => {
-  const value = await client.set("ping", "pong", { ex: 10 }); // expire in 10s
-  const redisValue = await client.get("ping");
-
-  res.json({
-    message: "ping message",
-    redis_test: redisValue
-  });
-});
-
+app.use('/api',authRouter);
 
 app.listen(3000, () => console.log("Server listening on 3000"));
